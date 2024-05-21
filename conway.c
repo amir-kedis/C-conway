@@ -106,28 +106,25 @@ Color get_cell_color(
 
   switch (count) {
   case 0:
-    col = (Color){114, 20, 38, 255};
-    break;
   case 1:
-    col = (Color){114, 20, 38, 255};
+    col = (Color){95, 108, 211, 255};
     break;
   case 2:
-    col = (Color){108, 40, 70, 255};
+    col = (Color){100, 80, 134, 255};
     break;
   case 3:
     col = (Color){104, 60, 102, 255};
     break;
   case 4:
-    col = (Color){100, 80, 134, 255};
+    col = (Color){108, 40, 70, 255};
     break;
   case 5:
   case 6:
   case 7:
   case 8:
-    col = (Color){95, 108, 211, 255};
-    break;
   default:
-    col = (Color){95, 108, 211, 255};
+    col = (Color){114, 20, 38, 255};
+    break;
   }
 
   return col;
