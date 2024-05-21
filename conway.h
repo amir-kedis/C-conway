@@ -27,3 +27,6 @@ Color get_cell_color(
     int y);
 
 void handleClick(int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE]);
+
+void drawGridLines(
+    int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE]);

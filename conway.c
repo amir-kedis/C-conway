@@ -11,6 +11,7 @@ int main() {
 
   int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE] = {0};
   int running = true;
+  int gridLines = false;
 
   randomize_grid(grid);
 
@@ -29,18 +30,25 @@ int main() {
       break;
     }
 
+    if (IsKeyPressed(KEY_G)) {
+      gridLines = !gridLines;
+    }
+
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
       handleClick(grid);
     }
 
+    ClearBackground(BLACK);
+
+    if (gridLines) {
+      drawGridLines(grid);
+    }
     draw_grid(grid);
 
     if (!running) {
       EndDrawing();
       continue;
     }
-
-    ClearBackground(BLACK);
 
     update_grid(grid);
     WaitTime(0.1);
@@ -183,6 +191,10 @@ void update_grid(
   memcpy(grid, new_grid, sizeof(new_grid));
 }
 
+/**
+ * handleClick - Handle the mouse click
+ * @grid: The grid to handle the click
+ */
 void handleClick(
     int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE]) {
   Vector2 mouse = GetMousePosition();
@@ -190,4 +202,18 @@ void handleClick(
   int y = mouse.y / CELL_SIZE;
 
   grid[x][y] = 1;
+}
+
+/**
+ * drawGridLines - Draw the grid lines
+ * @grid: The grid to draw the lines
+ */
+void drawGridLines(
+    int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE]) {
+  for (int i = 0; i < SCREEN_WIDTH / CELL_SIZE; i++) {
+    for (int j = 0; j < SCREEN_HEIGHT / CELL_SIZE; j++) {
+      DrawRectangleLines(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE,
+                         ColorAlpha(get_cell_color(grid, i, j), 0.2));
+    }
+  }
 }
