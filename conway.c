@@ -10,30 +10,46 @@ int main() {
   initwindow();
 
   int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE] = {0};
+  int running = true;
+
+  randomize_grid(grid);
 
   while (!WindowShouldClose()) {
     BeginDrawing();
-
-    ClearBackground(BLACK);
 
     if (IsKeyPressed(KEY_R)) {
       randomize_grid(grid);
     }
 
+    if (IsKeyPressed(KEY_SPACE)) {
+      running = !running;
+    }
+
+    if (IsKeyPressed(KEY_ESCAPE)) {
+      break;
+    }
+
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+      handleClick(grid);
+    }
+
     draw_grid(grid);
+
+    if (!running) {
+      EndDrawing();
+      continue;
+    }
+
+    ClearBackground(BLACK);
 
     update_grid(grid);
     WaitTime(0.1);
 
     EndDrawing();
   }
-
-  update_grid(grid);
 }
 
-/**
- * initwindow - Initialize the window
- */
+/** initwindow - Initialize the window */
 void initwindow() {
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Conway's Game of Life");
   SetTargetFPS(60);
@@ -90,7 +106,7 @@ Color get_cell_color(
 
   switch (count) {
   case 0:
-    col = BLACK;
+    col = (Color){114, 20, 38, 255};
     break;
   case 1:
     col = (Color){114, 20, 38, 255};
@@ -168,4 +184,13 @@ void update_grid(
   }
 
   memcpy(grid, new_grid, sizeof(new_grid));
+}
+
+void handleClick(
+    int grid[SCREEN_WIDTH / CELL_SIZE][SCREEN_HEIGHT / CELL_SIZE]) {
+  Vector2 mouse = GetMousePosition();
+  int x = mouse.x / CELL_SIZE;
+  int y = mouse.y / CELL_SIZE;
+
+  grid[x][y] = 1;
 }
